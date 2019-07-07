@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  api1:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConsulAddress=consul
+    ports:
+      - "61748:80"
+      - "44392:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    links:
+     - consul
+  api2:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConsulAddress=consul
+    ports:
+      - "61749:80"
+      - "44317:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    links:
+     - consul
+  consul:
+    ports:
+     - "32839:8500"
